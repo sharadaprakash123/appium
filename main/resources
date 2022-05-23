@@ -1,0 +1,151 @@
+/*App Path — browse to the .apk location under the app folder
+Platform Name — select Android
+Automation Name — select Appium
+Platform Version — select 5.1 Lollipop (API Level 22) from the drop-down
+
+Select Pre-launch Application
+Select Strict Capabilities
+Select Override Existing Sessions
+Select Kill Processes Using Server Port Before Launch
+Select New Command Timeout and enter the value 7200.*/
+
+Feature: Login
+
+  Scenario Outline: Login flow via Trader Evolution app
+  
+    As a user I should be able to Login with my Email and Password
+    
+    When I click Login button
+    And I fill in Email with "<login>"
+    And A fill in Password with "<password>"
+    Then I choose Login button
+
+    Examples:
+    |       login       |   password    |
+    |       qa_test     |   qa_test@    |
+    
+    if (appiumDriver == null) {
+                switch (osName) {
+                    case "android":
+
+                        capabilities = DesiredCapabilities.android();
+
+                        capabilities.setCapability("appium-version", "1.9.0");
+                        capabilities.setCapability("platformName", "Android");
+                        capabilities.setCapability("platformVersion", "5.1");
+                        capabilities.setCapability("deviceName", "Google Nexus 10");
+                        capabilities.setCapability("app", "/Users/TraderEvolution/appium-cucumber/app/test.apk");
+                try {
+                    appiumDriver = new AppiumDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
+                    appiumDriver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+                    log.info("Create instance of Android Driver");
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    log.info("Instance of Android Driver is not created");};
+                        
+                        break;
+   
+
+
+@AndroidFindBy(id = "login_button")
+    private Button btnSignIn;
+    
+    @AndroidFindBy(id = "email_sign_in")
+    private  Button emailField;
+
+    @AndroidFindBy(id = "password_sign_in")
+    private Button passField;
+    
+    @AndroidFindBy(xpath = "//android.widget.button[@text='Login' and @index='2']")
+    private Button btnLogin;
+    
+    public void clickSignIn() {
+        btnSignIn.click();
+    }
+    
+    public void setEmail(String email) {
+        emailField.sendKeys(email);
+    }
+
+    public void setPassword(String password) {
+        passField.sendKeys(password);
+    }
+
+    public void clickLogin() {
+        btnLogin.click();
+    }
+    
+    
+       @BeforeClass
+    public void setUp() {
+
+        wait = new WebDriverWait(appiumDriver, 15);
+    }
+
+    @BeforeClass
+    public void  tearDown() {
+        appiumDriver.close();
+    }
+    
+    
+    
+    public class Login extends BaseTest {
+    private LoginPage loginPage = new LoginPage();
+
+    @When("^I click Login button$")
+    public void iClickLoginButton()  {
+        loginPage.clickSignIn();
+    }
+
+    @And("^I fill in Email with \"([^\"]*)\"$")
+    public void iFillInEmailWith(String email) {
+        loginPage.setPassword(email);
+        log.info("Email is entered");
+    }
+
+    @And("^A fill in Password with \"([^\"]*)\"$")
+    public void aFillInPasswordWith(String password) {
+        loginPage.setPassword(password);
+        log.info("Password is entered");
+    }
+
+    @Then("^I choose Login button$")
+    public void iChooseLoginButton() {
+        loginPage.clickLogin();
+    }
+}
+
+
+
+for (int i=0;i<Symbollist.size();i++) {
+            String actuallist = Symbollist.get(i).getText();
+            
+            
+            public List<String> Symbollist(String year) {
+
+    java.util.List<MobileElement> SymbolList =driver.findElementsById(packageName+":id/title");
+
+    java.util.List<String> displayedSymbols = new ArrayList<>();
+    //logic to add displayed years to list
+    for (MobileElement yearEl: Symbollist) {
+        displayedSymbollist.add(yearEl.getText());
+    }
+
+    //logic to click
+    for (int i=0;i< symbollist.size();i++) {
+        String actuallist = symbollist.get(i).getText();
+        System.out.println("Print symbol list " +actuallist);
+        if(actuallist.equals(symbol)) {
+            driver.findElementByName(symbolname).click();
+        } else {
+            Utils.scrollDown(driver);
+        }
+    }
+    return Symbollist;
+}
+
+
+
+
+
